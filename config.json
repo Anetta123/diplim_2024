@@ -1,5 +1,7 @@
 {
-    "folder_id" : "",
-    "api_id" : "",
-    "api_key" : ""
+    "self_url": "",
+    "api_key": "",
+    "telegram_token": "",
+    "folder_id": "",
+    "source_dir": ""
 }
