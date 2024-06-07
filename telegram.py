@@ -24,9 +24,6 @@ source_dir = config['source_dir']
 
 # Инициализируем Telegram Bot
 bot = Bot(token=telegram_token)
-dispatcher = Dispatcher(bot, None, use_context=True)
-
-# Инициализируем векторное хранилище и ретривер
 embeddings = YandexEmbeddings(folder_id=folder_id, api_key=api_key)
 docs = DirectoryLoader(source_dir).load()
 text_splitter = RecursiveCharacterTextSplitter()
@@ -67,6 +64,10 @@ def start(update: Update, context: CallbackContext):
 
 # Обработчик текстовых сообщений
 def respond(update: Update, context: CallbackContext):
+    user_id = update.message.from_user.id
+    if user_id not in context.user_data:
+        update.message.reply_text("Для начала работы с ботом нажмите /start")
+        return
     question = update.message.text
     docs = retriever.get_relevant_documents(question)
     response = llm_chain.run(question, docs)
